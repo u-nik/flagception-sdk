@@ -152,9 +152,12 @@ class ContextTest extends TestCase
         $context->add('test_3', ['key' => 'value']);
 
         $data = serialize($context);
-
         $hash = sha1($data);
-        static::assertEquals('7d06bb0e2174031f1c16bf4f304978ad3d9664ed', $hash);
+
+        static::assertEquals('a5614400b77c01e5b56ffe2db75659e9222c15f9', $hash);
+
+        // Check if both serialization results are equal.
+        static::assertEquals($hash, sha1($context->serialize()));
 
         /** @var Context $context2 */
         $context2 = unserialize($data);

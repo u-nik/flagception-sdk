@@ -91,7 +91,7 @@ class Context implements Serializable
      */
     public function serialize()
     {
-        return serialize($this->storage);
+        return serialize($this);
     }
 
     /**
@@ -99,6 +99,24 @@ class Context implements Serializable
      */
     public function unserialize($serialized)
     {
-        $this->storage = unserialize($serialized);
+        $instance = unserialize($serialized);
+        $this->storage = $instance->all();
+    }
+
+    /**
+     * @return array[]
+     */
+    public function __serialize()
+    {
+        return ['storage' => $this->storage];
+    }
+
+    /**
+     * @param array $data
+     * @return void
+     */
+    public function __unserialize(array $data)
+    {
+        $this->storage = $data['storage'];
     }
 }
